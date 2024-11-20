@@ -1,3 +1,4 @@
+// app/api\posts/[id]
 // http://localhost:3000/api/posts
 
 import client from "@/app/libs/prismadb"
@@ -6,13 +7,13 @@ import { NextResponse } from "next/server"
 export const GET = async (request, {params}) => {
 
     try {
-        const {id} = params
+        const {id} = params;
 
         const posts = await client.post.findUnique({
             where: {
                 id
             }
-        })
+        });
         if(!posts){
             return NextResponse.error({
                 status: 404
@@ -29,9 +30,9 @@ export const GET = async (request, {params}) => {
 
 export const PATCH = async (request, {params}) => {
 
-    const {id} = params
-    const body = await request.json()
-    const {title, description} = body
+    const {id} = params;
+    const body = await request.json();
+    const {title, actors, year} = body
 
     try {
         const updatePost = await client.post.update({
@@ -40,9 +41,10 @@ export const PATCH = async (request, {params}) => {
             },
             data: {
                 title,
-                description
-            }
-        })
+                actors,
+                year: parseInt(year),
+            },
+        });
         if(!updatePost){
             return NextResponse.error({
                 status: 404
@@ -73,4 +75,4 @@ export const DELETE = async (request, {params}) => {
             status: 500
         }, {message: error.message})
     }
-}
+};

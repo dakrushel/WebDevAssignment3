@@ -53,7 +53,9 @@ const Post = ({ post }) => {
   return (
     <li className="p-3 my-5 bg-stone-200 text-stone-500" key={post.id}>
       <h1 className="font-bold">{post.title}</h1>
-      <p>{post.description}</p>
+      <p>{post.actors}</p>
+      <p>{post.year}</p>
+
       {/* Add onClick for Edit and Delete Button */}
       <button className="text-blue-600 mr-5" onClick={()=> setShowModalEdit(true)}>Edit</button> 
 
@@ -71,10 +73,18 @@ const Post = ({ post }) => {
           />
           <input
             type="text"
-            placeholder="Desciption"
+            placeholder="Actors"
             name="description"
             className="w-full p-3 my-3"
-            value={postToEdit.description}
+            value={postToEdit.actors}
+            onChange={handleChange}
+          />
+          <input
+            type="number"
+            placeholder="Release Year"
+            name="description"
+            className="w-full p-3 my-3"
+            value={postToEdit.year}
             onChange={handleChange}
           />
           <button type="submit" className="bg-red-400 text-white px-5 py-2">
@@ -91,8 +101,6 @@ const Post = ({ post }) => {
           <button className="bg-green-500 text-white p-2 mr-5" onClick={()=> handleDeletePost(post.id)}>Yes</button>
           <button className="bg-red-500 text-white p-2" onClick={() => setShowModalDelete(false)}>No</button>
         </div>
-      
-
       </Modal>
     </li>
   );
