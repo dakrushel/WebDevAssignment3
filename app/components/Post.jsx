@@ -53,8 +53,8 @@ const Post = ({ post }) => {
   return (
     <li className="p-3 my-5 bg-stone-200 text-stone-500" key={post.id}>
       <h1 className="font-bold">{post.title}</h1>
-      <p>{post.actors}</p>
-      <p>{post.year}</p>
+      <p>Actors: {post.actors}</p>
+      <p>Release Year: {post.year}</p>
 
       {/* Add onClick for Edit and Delete Button */}
       <button className="text-blue-600 mr-5" onClick={()=> setShowModalEdit(true)}>Edit</button> 

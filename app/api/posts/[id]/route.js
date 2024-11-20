@@ -7,7 +7,7 @@ import { NextResponse } from "next/server"
 export const GET = async (request, {params}) => {
 
     try {
-        const {id} = params;
+        const {id} = await params;
 
         const posts = await client.post.findUnique({
             where: {
@@ -21,6 +21,7 @@ export const GET = async (request, {params}) => {
         }
         return NextResponse.json(posts)
     } catch (error) {
+        console.log("app/posts/[id]/route.js")
         return NextResponse.error({
             status: 500
         }, {message: error.message})

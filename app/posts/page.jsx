@@ -6,21 +6,33 @@ import PostList from '../components/PostList'
 // another component to retrieve all posts from the database
 
  async function getData() {
+  try {
     const res = await fetch("http://localhost:3000/api/posts", {cache: "no-store"});
     if(!res.ok) {
-      throw new Error("Failed to fetch Data");
+      console.error("API error: ", res.status, res.statusText);
+      return [];
     }
-    return res.json();
+      return res.json();
+  } catch (error) {
+    console.error("Fetch failed: ", error.message);
+    return [];
+  }
 }
 const page = async () => {
-   const posts = await getData()
-   console.log(posts)
+   let posts = [];
+
+   try {
+    posts = await getData();
+   } catch (error) {
+    console.error("Error fetching posts: ", error.message);
+   }
+
   return (
     <main className='flex flex-col justify-between p-24'>
-        <h1 className='p-5'>My Posts App</h1>
+        <h1 className='p-5'>My Movies App</h1>
         <div>
             <AddPost />
-            <PostList post={posts}/>
+            <PostList posts={posts} />
         </div>
     </main>
   )

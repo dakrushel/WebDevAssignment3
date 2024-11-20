@@ -16,9 +16,9 @@ datasource db {
 model Post {
   // we are mapping our id as mongobd is is _id
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  title String?
+  title String
   // description String?
-  actors String //This will probably need to be an array
+  actors String? //This will probably need to be an array
   year Int //release year
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
