@@ -1,68 +1,78 @@
-'use client'
-import React from "react";
-import { useState } from "react";
+"use client";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import Modal from "./Modal";
 
-
 const Post = ({ post }) => {
-  const router = useRouter()
+  const router = useRouter();
   const [showModalEdit, setShowModalEdit] = useState(false);
-  const [postToEdit, setPostToEdit] = useState(post);
+  const [postToEdit, setPostToEdit] = useState({
+    id: post?.id || "",
+    title: post?.title || "",
+    actors: post?.actors || "",
+    year: post?.year || "",
+  });
+
   const [showModalDelete, setShowModalDelete] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!postToEdit.id) {
+      console.error("No ID provided for the post to edit");
+      return;
+    }
+
     axios
-      .patch(`api/posts/${postToEdit.id}`, postToEdit)
+      .patch(`/api/posts/${postToEdit.id}`, postToEdit) // Ensure correct URL
       .then((res) => {
-        console.log(res.data);
+        console.log("Post updated:", res.data);
+        setShowModalEdit(false);
+        router.refresh(); // Refresh the page to show updated data
       })
       .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setPostToEdit({});
-        setShowModalEdit(false);
-        router.refresh()
+        console.error("Error updating post:", err);
       });
-  }
+  };
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    console.log("This is the value of e",e)
-    setPostToEdit((prevState)=>({...prevState, [name]: value}));
-  }
+    const { name, value } = e.target;
+    setPostToEdit((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
   const handleDeletePost = (id) => {
     axios
-    .delete(`api/posts/${id}`)
-    .then((res) => {
-      console.log(res.data);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      setShowModalDelete(false)
-      router.refresh()
-    });
-  }
+      .delete(`/api/posts/${id}`) // Ensure correct URL
+      .then((res) => {
+        console.log("Post deleted:", res.data);
+        setShowModalDelete(false);
+        router.refresh();
+      })
+      .catch((err) => {
+        console.error("Error deleting post:", err);
+      });
+  };
 
   return (
     <li className="p-3 my-5 bg-stone-200 text-stone-500" key={post.id}>
-      <h1 className="font-bold">{post.title}</h1>
+      <h1 className="font-bold">Title: {post.title}</h1>
       <p>Actors: {post.actors}</p>
       <p>Release Year: {post.year}</p>
 
-      {/* Add onClick for Edit and Delete Button */}
-      <button className="text-blue-600 mr-5" onClick={()=> setShowModalEdit(true)}>Edit</button> 
+      <button
+        className="text-blue-600 mr-5"
+        onClick={() => setShowModalEdit(true)}
+      >
+        Edit
+      </button>
 
       <Modal showModal={showModalEdit} setShowModal={setShowModalEdit}>
-
         <form className="w-full px-5 pb-6" onSubmit={handleSubmit}>
-          <h1 className="font-bold">Add or Update a Post</h1>
+          <h1 className="font-bold">Edit Post</h1>
           <input
             type="text"
             placeholder="Title"
@@ -74,7 +84,7 @@ const Post = ({ post }) => {
           <input
             type="text"
             placeholder="Actors"
-            name="description"
+            name="actors" // Corrected name attribute
             className="w-full p-3 my-3"
             value={postToEdit.actors}
             onChange={handleChange}
@@ -82,7 +92,7 @@ const Post = ({ post }) => {
           <input
             type="number"
             placeholder="Release Year"
-            name="description"
+            name="year"
             className="w-full p-3 my-3"
             value={postToEdit.year}
             onChange={handleChange}
@@ -92,14 +102,33 @@ const Post = ({ post }) => {
           </button>
         </form>
       </Modal>
-      <button className="text-red-400 p-2" onClick={()=> setShowModalDelete(true)}>Delete</button>
+
+      <button
+        className="text-red-400 p-2"
+        onClick={() => setShowModalDelete(true)}
+      >
+        Delete
+      </button>
+
       <Modal showModal={showModalDelete} setShowModal={setShowModalDelete}>
-        <div className="flex flex-col justify-start space-y-4"> 
-        <h2 className="text-center text-lg font-bold">Are you sure you want to Delete this post</h2>
-      </div>
+        <div className="flex flex-col justify-start space-y-4">
+          <h2 className="text-center text-lg font-bold">
+            Are you sure you want to delete this post?
+          </h2>
+        </div>
         <div className="flex justify-end w-full space-x-3">
-          <button className="bg-green-500 text-white p-2 mr-5" onClick={()=> handleDeletePost(post.id)}>Yes</button>
-          <button className="bg-red-500 text-white p-2" onClick={() => setShowModalDelete(false)}>No</button>
+          <button
+            className="bg-green-500 text-white p-2 mr-5"
+            onClick={() => handleDeletePost(post.id)}
+          >
+            Yes
+          </button>
+          <button
+            className="bg-red-500 text-white p-2"
+            onClick={() => setShowModalDelete(false)}
+          >
+            No
+          </button>
         </div>
       </Modal>
     </li>
