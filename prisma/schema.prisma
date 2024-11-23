@@ -24,4 +24,24 @@ model Post {
   updatedAt DateTime @updatedAt
 }
 
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  email String @unique
+  password String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  //relation to sessions below
+  sessions Session[]
+}
+
+model Session {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  //relation to user below
+  user User @relation(fields: [userId], references: [id])
+}
 
