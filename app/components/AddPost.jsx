@@ -41,7 +41,11 @@ const AddPost = () => {
       </button>
       <Modal showModal={showModal} setShowModal={setShowModal}>
         <form className="w-full px-5 pb-6" onSubmit={handleSubmit}>
+<<<<<<< Updated upstream
           <h1 className="font-bold">Add or Update a Post</h1>
+=======
+          <h1 className="font-bold text-4xl text-yellow-600">Add a Movie</h1>
+>>>>>>> Stashed changes
           <input
             type="text"
             placeholder="Title"
@@ -58,7 +62,7 @@ const AddPost = () => {
             value={input.description}
             onChange={handleChange}
           />
-          <button type="submit" className="bg-red-400 text-white px-5 py-2">
+          <button type="submit" className="bg-yellow-600 text-white px-5 py-2">
             Submit
           </button>
         </form>

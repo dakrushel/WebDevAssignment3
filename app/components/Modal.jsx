@@ -3,9 +3,8 @@ import React from "react";
 const Modal = ({ children, showModal, setShowModal }) => {
   return (
     showModal && (
-      <div className="bg-black/45 fixed inset-0">
-        <div className="flex justify-center items-center h-full">
-          <div className="flex flex-col items-end bg-stone-200 text-stone-500 w-1/2 p-5">
+      <div className="fixed inset-0 bg-black/50 flex justify-center items-center">
+        <div className="bg-blue-900 text-red-500 rounded-lg shadow-lg w-1/2 p-6">
             <button
               className="text-2xl mb-3"
               onClick={() => setShowModal(false)}
@@ -13,7 +12,6 @@ const Modal = ({ children, showModal, setShowModal }) => {
               &#215;
             </button>
             {children}
-          </div>
         </div>
       </div>
     )
