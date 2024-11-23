@@ -7,12 +7,18 @@ import { useRouter } from "next/navigation";
 
 
 const AddPost = () => {
-    const router = useRouter()
+  const router = useRouter()
   const [showModal, setShowModal] = useState(false);
-  const [input, setInput] = useState({title: "", description: ""});
+  const [input, setInput] = useState({title: "", actors: "", year: ""});
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // movie object
+    const movie = {
+      ...input,
+      year: parseInt(input.year),
+    }
     axios
       .post("api/posts", input)
       .then((res) => {
@@ -22,7 +28,7 @@ const AddPost = () => {
         console.log(err);
       })
       .finally(() => {
-        setInput({});
+        setInput({title: "", actors: "", year: ""}); //Reset?
         setShowModal(false);
         router.refresh()
       });
@@ -41,11 +47,15 @@ const AddPost = () => {
       </button>
       <Modal showModal={showModal} setShowModal={setShowModal}>
         <form className="w-full px-5 pb-6" onSubmit={handleSubmit}>
-<<<<<<< Updated upstream
+// <<<<<<< master
+//           <h1 className="font-bold">Add or Update a Movie</h1>
+// =======
+// <<<<<<< Updated upstream
           <h1 className="font-bold">Add or Update a Post</h1>
-=======
-          <h1 className="font-bold text-4xl text-yellow-600">Add a Movie</h1>
->>>>>>> Stashed changes
+// =======
+//           <h1 className="font-bold text-4xl text-yellow-600">Add a Movie</h1>
+// >>>>>>> Stashed changes
+// >>>>>>> denver
           <input
             type="text"
             placeholder="Title"
@@ -56,10 +66,18 @@ const AddPost = () => {
           />
           <input
             type="text"
-            placeholder="Desciption"
-            name="description"
+            placeholder="Actors"
+            name="actors"
             className="w-full p-3 my-3"
-            value={input.description}
+            value={input.actors}
+            onChange={handleChange}
+          />
+          <input
+            type="number"
+            placeholder="Release Year"
+            name="year"
+            className="w-full p-3 my-3"
+            value={input.year}
             onChange={handleChange}
           />
           <button type="submit" className="bg-yellow-600 text-white px-5 py-2">
