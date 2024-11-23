@@ -2,21 +2,12 @@ import React from 'react';
 
 const page = () => {
   return (
-// <<<<<<< master
-//     <div>This is the about page</div>
-// =======
-// <<<<<<< Updated upstream
-//     <div>page</div>
-// >>>>>>> denver
-//   )
-// }
-// =======
+
     <div className="bg-[#001F3F] min-h-screen flex flex-col items-center">
       {/* Header */}
       <div className="bg-blue-700 w-full py-6 text-white text-center shadow-lg">
         <h1 className="text-4xl font-bold">About IMR Company</h1>
       </div>
-// >>>>>>> Stashed changes
 
       {/* Content */}
       <div className="mt-10 bg-blue-900 max-w-4xl p-8 rounded-lg shadow-lg text-white">
